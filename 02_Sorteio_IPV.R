@@ -58,8 +58,8 @@ GraphMyDataPlease <- function(df){
   nomes <- sub(" +$", "", nomes) 
   t = seq(0.9, 0.05, -0.09)^2
   
-
-  cowplot::ggdraw() %>% plot()
+  x11()
+  cowplot::ggdraw()
   for (i in t) {
     
     nomes |>
@@ -73,7 +73,7 @@ GraphMyDataPlease <- function(df){
                  label.r = unit(0.55, "lines"),
                  label.size = 1) -> p
     
-    return(p)
+    plot(p)
     Sys.sleep(i)
     if (i > min(t)) {
       cowplot::ggdraw() %>% plot()

@@ -1,14 +1,27 @@
+package.check <- function(packages) {
+  for (x in packages) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+    }
+  }
+}
+
+packages <- c("tidyverse", "magick", "cowplot")
+
+package.check(packages)
+
 library("ggplot2")
 
-get_wd_here <- readRDS("get_wd_here.rds")
-ipv <- magick::image_read(paste0(get_wd_here(),"/ipv.jpg"))
+ipv <- magick::image_read(paste0(getwd(),"/ipv.jpg"))
 
-grDevices::x11()
-
-nomes <- unique(read.csv("df.txt")$Nome)
+nomes <- unique(read.csv(paste0(getwd(),"/df.txt"))[[1]])
+nomes <- sub(" +$", "", nomes)
 t = seq(0.9, 0.05, -0.09)^2
 
+grDevices::x11()
 cowplot::ggdraw()
+Sys.sleep(5)
+
 for (i in t) {
   
   nomes |>
@@ -21,7 +34,7 @@ for (i in t) {
                label.padding = unit(1.5, "lines"),
                label.r = unit(0.55, "lines"),
                label.size = 1) -> p
-    
+  
   plot(p)
   Sys.sleep(i)
   if (i > min(t)) {
@@ -29,4 +42,6 @@ for (i in t) {
   }
 }
 
-dev.off()
+Sys.sleep(5)
+
+
